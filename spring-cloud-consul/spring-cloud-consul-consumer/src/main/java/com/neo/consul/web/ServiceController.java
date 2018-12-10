@@ -1,6 +1,7 @@
 package com.neo.consul.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,8 @@ public class ServiceController {
      */
     @RequestMapping("/discover")
     public Object discover() {
-        return loadBalancer.choose("service-producer").getUri().toString();
+        ServiceInstance svr = loadBalancer.choose("service-producer");
+        return svr.getUri().toString();
     }
 
 }

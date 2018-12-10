@@ -28,4 +28,26 @@ public class CallHelloController {
         return callServiceResult;
     }
 
+
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+    @RequestMapping("/call2")
+    public String call2() {
+        String ret = "";
+        List<ServiceInstance> svrs = this.discoveryClient.getInstances("service-producer");
+        for (ServiceInstance svr : svrs) {
+            ret += callService(svr) + "\n";
+        }
+        return ret;
+    }
+    private String callService(ServiceInstance serviceInstance){
+
+        System.out.println("服务地址：" + serviceInstance.getUri());
+        System.out.println("服务名称：" + serviceInstance.getServiceId());
+
+        String callServiceResult = new RestTemplate().getForObject(serviceInstance.getUri().toString() + "/hello", String.class);
+        System.out.println(callServiceResult);
+        return callServiceResult;
+    }
 }

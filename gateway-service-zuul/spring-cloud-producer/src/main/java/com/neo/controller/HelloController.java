@@ -11,4 +11,10 @@ public class HelloController {
     public String index(@RequestParam String name) {
         return "hello "+name+"，this is first messge";
     }
+
+
+    @RequestMapping("/echo")
+    public String echo(@RequestParam String saying) {
+        return "1:/ you say: " + saying;
+    }
 }
